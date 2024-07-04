@@ -2,7 +2,6 @@ import express from "express";
 import initKnex from "knex";
 import knexConfig from "../knexfile.js";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
@@ -12,7 +11,6 @@ const knex = initKnex(knexConfig);
 //POST /auth/register
 router.post("/register", async (req, res) => {
   const {
-    user_id,
     user_first_name,
     user_last_name,
     user_email,
@@ -36,7 +34,6 @@ router.post("/register", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(user_password);
 
   const newUser = {
-    user_id: crypto.randomUUID(),
     user_first_name,
     user_last_name,
     user_email,
@@ -97,7 +94,7 @@ router.post("/login", async (req, res) => {
   }
 
   const token = jwt.sign(
-    { user_id: user.user_id, user_email: user.user.email },
+    { user_id: user.user_id, user_email: user.user_email },
     process.env.JWT_SECRET,
     { expiresIn: "5m" }
   );
@@ -118,6 +115,23 @@ router.get("/profile", async(req, res) => {
           });
       }
 
+    const authToken = authHeader.split(" ")[1];
+
+    let decodedToken;
+    try {
+        decodedToken = jwt.verify(authToken, process.env.JWT_SECRET);
+    } catch(err) {
+        console.log(err)
+        return res.status(401).json({
+            message: "Invalid auth token",
+            error: "401",
+          });
+    }
+
+    const userData = await knex("users").where({ user_id: decodedToken.user_id }).first();
+    delete userData.user_password;
+
+    res.status(200).json(userData);
 });
 
 export default router;
