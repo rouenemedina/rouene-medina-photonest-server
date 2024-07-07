@@ -3,7 +3,7 @@ import * as contactController from "../controllers/contact-controller.js";
 
 const router = express.Router();
 
-router.route("/contact")
+router.route("/")
     .post(contactController.addCommentMsg);
 
 export default router;
