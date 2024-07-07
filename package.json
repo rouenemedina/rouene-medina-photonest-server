@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch index.js",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "migrate:down": "knex migrate:down",
+    "migrate:rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "keywords": [],
   "author": "Rouene Medina",

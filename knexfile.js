@@ -1,6 +1,3 @@
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
 import "dotenv/config";
 
 export default {

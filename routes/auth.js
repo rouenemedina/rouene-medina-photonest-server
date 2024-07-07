@@ -88,7 +88,7 @@ router.post("/login", async (req, res) => {
   const verifyPassword = bcrypt.compareSync(user_password, user.user_password);
   if(!verifyPassword) {
     return res.status(401).json({
-        message: "Invalid password",
+        message: "Authentication error",
         error: "401",
       });
   }
@@ -110,7 +110,7 @@ router.get("/profile", async(req, res) => {
         return res
           .status(401)
           .json({
-            message: "Please provide a JWT for authorization or please login",
+            message: "Authentication error",
             error: "401",
           });
       }
@@ -123,7 +123,7 @@ router.get("/profile", async(req, res) => {
     } catch(err) {
         console.log(err)
         return res.status(401).json({
-            message: "Invalid auth token",
+            message: "Authentication error",
             error: "401",
           });
     }
