@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 8081;
 
 app.use(cors());
 app.use(express.json());
+
+//Routes
 app.use("/auth", authRoutes);
 
 app.listen(PORT, () => {
