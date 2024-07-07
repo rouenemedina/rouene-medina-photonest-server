@@ -27,8 +27,7 @@ const addCommentMsg = async (req, res) => {
   const newContactMsg = {
     contact_name,
     contact_email,
-    contact_message,
-    contact_date: knex.fn.now()
+    contact_message
   };
 
   try {
