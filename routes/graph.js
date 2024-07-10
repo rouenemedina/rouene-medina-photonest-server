@@ -1,11 +1,11 @@
 import express from "express";
 import multer from "multer";
-import * as onedriveController from "../controllers/onedrive-controller.js";
+import * as msGraphController from "../controllers/graph-controller.js";
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
 router.route("/")
-    .post(upload.single("file"), onedriveController.uploadImg);
+    .post(upload.single("file"), msGraphController.uploadImg);
 
 export default router;
