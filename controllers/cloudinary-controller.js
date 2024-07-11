@@ -3,7 +3,6 @@ import configuration from "../knexfile.js";
 import axios from "axios";
 import fs from "fs";
 import multer from "multer";
-import { v2 as cloudinary } from "cloudinary";
 import FormData from "form-data";
 import "dotenv/config";
 
@@ -13,12 +12,6 @@ const upload = multer({ dest: "uploads/" });
 const cloudName = process.env.CLOUD_NAME;
 const cloudSecret = process.env.CLOUD_SECRET;
 const cloudKey = process.env.CLOUD_KEY;
-
-// cloudinary.config({
-//   cloudName,
-//   cloudSecret,
-//   cloudKey,
-// });
 
 const uploadToCloudinaryUsingAxios = async (filePath) => {
 
@@ -44,16 +37,6 @@ const uploadToCloudinaryUsingAxios = async (filePath) => {
         throw err;
     }
 }
-
-// const uploadToCloudinary = async (filePath) => {
-//   try {
-//     const response = await cloudinary.uploader.upload(filePath);
-//     return response.secure_url;
-//   } catch (err) {
-//     console.log("Error uploading file:", err);
-//     throw err;
-//   }
-// };
 
 //POST /upload
 const uploadImg = async (req, res) => {
