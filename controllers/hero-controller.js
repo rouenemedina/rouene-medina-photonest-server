@@ -43,12 +43,7 @@ const uploadToCloudinaryUsingAxios = async (filePath) => {
 const uploadImg = async (req, res) => {
   try {
     const file = req.file;
-    const { hero_description, user_email } = req.body;
-
-    const user_id = await knex("users")
-      .where({ user_email: user_email })
-      .first()
-      .then((row) => (row ? row.user_id : null));
+    const { hero_description, user_id } = req.body;
 
     //check if file exist
     if (!file) {
@@ -75,8 +70,6 @@ const uploadImg = async (req, res) => {
       hero_url: imageUrl,
     };
 
-    console.log(newImg);
-
     await knex("hero").where({ user_id: newImg.user_id }).delete();
 
     await knex("hero").insert(newImg);
@@ -96,7 +89,9 @@ const uploadImg = async (req, res) => {
 //GET
 const heroIndex = async (req, res) => {
   try {
-    const response = await knex("hero");
+    const { user_id } = req.params;
+
+    const response = await knex("hero").where({ user_id }).first();
     res.status(200).json(response);
   } catch(err) {
     console.log(err);
@@ -105,7 +100,6 @@ const heroIndex = async (req, res) => {
       error: "400",
     });
   }
-
 }
 
 export { uploadImg, heroIndex };

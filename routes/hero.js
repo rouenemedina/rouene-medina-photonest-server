@@ -5,7 +5,7 @@ import * as heroController from "../controllers/hero-controller.js";
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
-router.route("/")
+router.route("/:user_id")
     .get(heroController.heroIndex);
 
     router.route("/upload")
