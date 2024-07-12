@@ -1,5 +1,6 @@
 import express from "express";
 import * as authController from "../controllers/auth-controller.js";
+import { verifyToken } from "../controllers/auth-controller.js";
 
 const router = express.Router();
 
@@ -10,6 +11,6 @@ router.route("/login")
   .post(authController.userLogin);
 
 router.route("/profile")
-  .get(authController.getProfile);
+  .get(verifyToken, authController.getProfile);
 
 export default router;

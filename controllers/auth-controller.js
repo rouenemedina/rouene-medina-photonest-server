@@ -100,8 +100,8 @@ const userLogin = async (req, res) => {
   res.json({ token: token });
 };
 
-//GET /auth/profile
-const getProfile = async (req, res) => {
+//verify Token
+const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -116,6 +116,8 @@ const getProfile = async (req, res) => {
   let decodedToken;
   try {
     decodedToken = jwt.verify(authToken, process.env.JWT_SECRET);
+    req.user = decodedToken;
+    next();
   } catch (err) {
     console.log(err);
     return res.status(401).json({
@@ -123,13 +125,24 @@ const getProfile = async (req, res) => {
       error: "401",
     });
   }
-
-  const userData = await knex("users")
-    .where({ user_id: decodedToken.user_id })
-    .first();
-  delete userData.user_password;
-
-  res.status(200).json(userData);
 };
 
-export { userRegistration, userLogin, getProfile };
+//GET /auth/profile
+const getProfile = async (req, res) => {
+  try {
+    const userData = await knex("users")
+      .where({ user_id: req.user.user_id })
+      .first();
+    delete userData.user_password;
+
+    res.status(200).json(userData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "An unexpected error occurred. Please try again later.",
+      error: "500",
+    });
+  }
+};
+
+export { userRegistration, userLogin, verifyToken, getProfile };
