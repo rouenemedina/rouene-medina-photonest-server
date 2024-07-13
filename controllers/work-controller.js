@@ -74,8 +74,9 @@ const workIndex = async (req, res) => {
     const { user_id } = req.params;
 
     const response = await knex("work")
-      .where({ userId: user_id })
-      .select("work_id", "work_title", "work_timestamp", "work_url");
+      .where({user_id})
+      .select("work_id", "work_title", "work_url", "user_id")
+      .orderBy("work_id", "asc");
 
     if (!response) {
       return res.status(404).json({
