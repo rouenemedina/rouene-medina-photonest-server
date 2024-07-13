@@ -9,6 +9,6 @@ router.route("/:user_id").get(galleryController.galleryIndex);
 
 router
   .route("/upload")
-  .post(upload.array("files", 16), galleryController.uploadImg);
+  .post(upload.array("files"), galleryController.uploadImg);
 
 export default router;

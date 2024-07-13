@@ -11,7 +11,6 @@ const knex = initKnex(configuration);
 const uploadImg = async (req, res) => {
   try {
     const { user_id } = req.body;
-
     const uploadedFiles = req.files.map((file) => ({
       filename: file.filename,
       path: file.path,

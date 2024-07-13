@@ -6,6 +6,7 @@ import contactRoutes from "./routes/contact.js";
 import cloudinaryRoutes from "./routes/cloudinary.js";
 import heroRoutes from "./routes/hero.js";
 import workRoutes from "./routes/work.js";
+import galleryRoutes from "./routes/gallery.js";
 
 const app = express();
 const PORT = process.env.PORT || 8081;
@@ -19,6 +20,7 @@ app.use("/contact", contactRoutes);
 app.use("/upload", cloudinaryRoutes);
 app.use("/hero", heroRoutes);
 app.use("/work", workRoutes);
+app.use("/gallery", galleryRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
