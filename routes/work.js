@@ -7,6 +7,8 @@ const upload = multer({ dest: "uploads/" });
 
 router.route("/:user_id").get(workController.workIndex);
 
-router.route("/upload").post(upload.array('files', 3), workController.uploadImg);
+router
+  .route("/upload")
+  .post(upload.array("files", 3), workController.uploadImg);
 
 export default router;
