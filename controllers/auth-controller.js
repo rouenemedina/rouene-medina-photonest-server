@@ -97,7 +97,7 @@ const userLogin = async (req, res) => {
     { expiresIn: "5m" }
   );
 
-  res.json({ user_id: user.user_id, token: token });
+  res.json({ user_id: user.user_id, user_type: user.user_type, token: token });
 };
 
 //verify Token
