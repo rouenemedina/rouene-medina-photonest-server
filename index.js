@@ -9,6 +9,7 @@ import aboutRoutes from "./routes/about.js";
 import connectRoutes from "./routes/connect.js";
 import galleryRoutes from "./routes/gallery.js";
 import contactRoutes from "./routes/contact.js";
+import filesRoutes from "./routes/checker.js";
 
 const app = express();
 const PORT = process.env.PORT || 8081;
@@ -18,6 +19,7 @@ app.use(express.json());
 
 //Routes
 app.use("/auth", authRoutes);
+app.use("/files", filesRoutes)
 app.use("/upload", cloudinaryRoutes);
 app.use("/hero", heroRoutes);
 app.use("/work", workRoutes);
