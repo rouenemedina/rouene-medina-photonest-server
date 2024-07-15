@@ -16,7 +16,7 @@ const uploadImg = async (req, res) => {
       path: file.path,
     }));
 
-    //check if file exist
+    // check if file exist
     if (uploadedFiles.length === 0) {
       return res.status(400).json({
         message: "No files uploaded.",
@@ -46,18 +46,15 @@ const uploadImg = async (req, res) => {
 
     //store in "about" table
     const newImages = [
-        {user_id, about_name, about_description, about_url: imageUrls[0]},
-        {user_id, about_name, about_description, about_url: imageUrls[1]}
-    ]
-
-    //delete previous uploads
-    // await knex("about").where({ user_id: user_id }).delete();
+      { user_id, about_name, about_description, about_url: imageUrls[0] },
+      { user_id, about_name, about_description, about_url: imageUrls[1] },
+    ];
 
     await knex("about").insert(newImages);
 
-    uploadedFiles.forEach(file => {
-        fs.unlinkSync(file.path);
-    })
+    uploadedFiles.forEach((file) => {
+      fs.unlinkSync(file.path);
+    });
 
     res.json({ urls: imageUrls });
   } catch (err) {
@@ -78,12 +75,26 @@ const aboutIndex = async (req, res) => {
       .where({ user_id })
       .select("about_name", "about_description", "about_url", "user_id");
 
-    if (response.length === 0) {
-      return res.status(404).json({
-        message: "No information found for this photographer.",
-        error: "404",
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Error retrieving photographer information.",
+      error: "400",
+    });
+  }
+};
+
+//GET /
+const allIndex = async (req, res) => {
+  try {
+    const response = await knex
+      .from("about")
+      .whereIn(["about_id", "user_id"], function () {
+        this.select(knex.raw("min(about_id) as about_id"), "user_id")
+          .from("about")
+          .groupBy("user_id");
       });
-    }
 
     res.status(200).json(response);
   } catch (err) {
@@ -95,4 +106,4 @@ const aboutIndex = async (req, res) => {
   }
 };
 
-export { uploadImg, aboutIndex };
+export { uploadImg, aboutIndex, allIndex };

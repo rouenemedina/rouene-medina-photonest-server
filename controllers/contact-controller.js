@@ -20,9 +20,6 @@ const addCommentMsg = async (req, res) => {
     });
   }
 
-  //no need to check existing comments because it doesn't require to be unique
-  //anybody can post?
-
   //newContactMsg
   const newContactMsg = {
     contact_name,

@@ -32,30 +32,9 @@ const uploadImg = async (req, res) => {
       });
     }
 
-    // const imageUrl1 = await uploadToCloudinaryUsingAxios(uploadedFiles[0].path);
-    // const imageUrl2 = await uploadToCloudinaryUsingAxios(uploadedFiles[1].path);
-    // const imageUrl3 = await uploadToCloudinaryUsingAxios(uploadedFiles[2].path);
-
     const imageUrls = await Promise.all(
       uploadedFiles.map((file) => uploadToCloudinaryUsingAxios(file.path))
     );
-
-    //store in "work" table
-    // const newImg1 = {
-    //   work_title: work_title1,
-    //   user_id,
-    //   work_url: imageUrl1,
-    // };
-    // const newImg2 = {
-    //   work_title: work_title2,
-    //   user_id,
-    //   work_url: imageUrl2,
-    // };
-    // const newImg3 = {
-    //   work_title: work_title3,
-    //   user_id,
-    //   work_url: imageUrl3,
-    // };
 
     const newImages = [
         {work_title: work_title1, user_id, work_url: imageUrls[0]},
@@ -66,16 +45,12 @@ const uploadImg = async (req, res) => {
     //clear previous entries,
     await knex("work").where({ user_id: user_id }).delete();
 
-    // await knex("work").insert(newImg1);
-    // await knex("work").insert(newImg2);
-    // await knex("work").insert(newImg3);
     await knex("work").insert(newImages);
 
     uploadedFiles.forEach(file => {
         fs.unlinkSync(file.path);
     })
     
-    // res.json({ url: { imageUrl1, imageUrl2, imageUrl3 } });
     res.json({ urls: imageUrls });
   } catch (err) {
     console.log(err);
@@ -95,13 +70,6 @@ const workIndex = async (req, res) => {
       .where({ user_id })
       .select("work_id", "work_title", "work_url", "user_id")
       .orderBy("work_id", "asc");
-
-    if (response.length === 0) {
-      return res.status(404).json({
-        message: "No works found for this photographer.",
-        error: "404",
-      });
-    }
 
     res.status(200).json(response);
   } catch (err) {

@@ -57,7 +57,7 @@ const uploadImg = async (req, res) => {
     }));
 
     //delete previous uploads
-    // await knex("gallery").where({ user_id: user_id }).delete();
+    await knex("gallery").where({ user_id: user_id }).delete();
 
     await knex("gallery").insert(newImgs);
 
@@ -80,12 +80,12 @@ const galleryIndex = async (req, res) => {
       .where({ user_id })
       .select("gallery_url", "user_id");
 
-    if (response.length === 0) {
-      return res.status(404).json({
-        message: "No works found for this photographer.",
-        error: "404",
-      });
-    }
+    // if (response.length === 0) {
+    //   return res.status(404).json({
+    //     message: "No works found for this photographer.",
+    //     error: "404",
+    //   });
+    // }
 
     res.status(200).json(response);
   } catch (err) {

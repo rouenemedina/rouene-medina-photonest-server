@@ -5,6 +5,8 @@ import * as aboutController from "../controllers/about-controller.js";
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
 
+router.route("/").get(aboutController.allIndex);
+
 router.route("/:user_id").get(aboutController.aboutIndex);
 
 router
