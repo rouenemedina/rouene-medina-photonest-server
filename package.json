@@ -9,7 +9,8 @@
     "migrate": "knex migrate:latest",
     "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "generate-docs": "aglio -i api-blueprint.md -o api-blueprint.html"
   },
   "keywords": [],
   "author": "Rouene Medina",
@@ -30,5 +31,8 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.10.2",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "aglio": "^2.3.0"
   }
 }
