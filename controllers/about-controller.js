@@ -50,6 +50,9 @@ const uploadImg = async (req, res) => {
       { user_id, about_name, about_description, about_url: imageUrls[1] },
     ];
 
+    //delete previous uploads
+    await knex("about").where({ user_id: user_id }).delete();
+
     await knex("about").insert(newImages);
 
     uploadedFiles.forEach((file) => {
