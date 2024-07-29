@@ -61,6 +61,7 @@ const uploadImg = async (req, res) => {
         error: "400",
       });
     }
+    
     //check if user_id exist
     if (!user_id) {
       return res.status(400).json({
